@@ -1,4 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
+from fastapi.param_functions import Depends
+
+from dependencies.users import get_current_user
 
 from .models import UserModel
 
@@ -20,3 +23,8 @@ def create_user(user: UserModel):
         )
 
     return user
+
+
+@router.get('/me')
+def read_users_me(current_user: UserModel = Depends(get_current_user)):
+    return current_user
