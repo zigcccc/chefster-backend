@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field, HttpUrl
-from typing import List, Optional, Set
+from sqlalchemy import Column, Integer, String, Boolean
+from pydantic import BaseModel, HttpUrl
+
+from db.database import Base
 
 
 class Image(BaseModel):
@@ -7,22 +9,11 @@ class Image(BaseModel):
     name: str
 
 
-class Recipe(BaseModel):
-    title: str = Field(..., title="Recipe title", max_length=140)
-    description: Optional[str] = Field(
-        None,
-        title="Description of the recipe",
-        max_length=280
-    )
-    difficulty: int = Field(
-        ...,
-        title="The difficulty of this recipe",
-        gt=0,
-        le=5
-    )
-    is_vegan: Optional[bool] = Field(
-        False,
-        title="Is this recipe suitable for vegans"
-    )
-    tags: Set[str] = Field([], title="Tags for a recipe", max_items=5)
-    images: List[Image] = Field([], title="Recipe images", max_items=10)
+class Recipe(Base):
+    __tablename__ = "recipes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, unique=True)
+    description = Column(String, nullable=True)
+    difficulty = Column(Integer)
+    is_vegan = Column(Boolean, default=False)
