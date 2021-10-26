@@ -1,15 +1,6 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlmodel import create_engine
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    # Needed **only** for SQLite DB
-    connect_args={"check_same_thread": False},
-)
+SQLMODEL_DATABASE_URL = "sqlite:///chefster.db"
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
+engine = create_engine(SQLMODEL_DATABASE_URL, echo=True,)

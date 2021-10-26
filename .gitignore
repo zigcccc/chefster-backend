@@ -6,3 +6,6 @@ env
 
 # Python
 __pycache__
+
+# DB
+*.db

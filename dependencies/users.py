@@ -1,38 +1,13 @@
-from fastapi import Depends
-from api.users.models import UserModel
+from fastapi import Depends, HTTPException, status
+from typing import Union
 
-from auth.oauth2 import oauth2_scheme
-
-
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "fakehashedsecret",
-        "disabled": False,
-    },
-    "alice": {
-        "username": "alice",
-        "full_name": "Alice Wonderson",
-        "email": "alice@example.com",
-        "hashed_password": "fakehashedsecret2",
-        "disabled": True,
-    },
-}
+from auth import dependencies, utils
 
 
-def fake_hash_password(password: str):
-    return "fakehashed" + password
+def get_current_user_id(token: str = Depends(dependencies.get_token)) -> Union[str, None]:
+    result = utils.VerifyToken(token).verify()
 
+    if result.get("status") == "error":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=result)
 
-def fake_decode_user(token):
-    return UserModel(
-        username=token + 'fakedecoded',
-        email="john@example.com",
-        full_name="John Doe"
-    )
-
-
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    return fake_decode_user(token)
+    return result["sub"]
