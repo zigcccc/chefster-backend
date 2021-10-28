@@ -23,7 +23,7 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-bbgs+t#ivi87n^0lb8g+$1t)ee$*1jjd(x#g9y0y0&!1@o4sog"
+SECRET_KEY = os.environ.get("DJANGO_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "rest_framework_swagger",
+    "users",
     "recipes",
 ]
 
@@ -145,6 +146,8 @@ JWT_AUTH = {
     "JWT_ISSUER": f"https://{AUTH0_DOMAIN}/",
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
+
+AUTH_USER_MODEL = "users.User"
 
 
 # Password validation
