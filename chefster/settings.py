@@ -9,12 +9,15 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load .env file
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -82,11 +85,11 @@ WSGI_APPLICATION = "chefster.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "chefster",
-        "USER": "chefster_db",
-        "PASSWORD": "chef4196",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASS"),
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": os.environ.get("DB_PORT", 5432),
     }
 }
 
@@ -132,13 +135,13 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.RemoteUserBackend",
 ]
 
-AUTH0_DOMAIN = "zkrsvc.eu.auth0.com"
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 
 JWT_AUTH = {
     "JWT_PAYLOAD_GET_USERNAME_HANDLER": "auth.utils.jwt_get_username_from_payload_handler",
     "JWT_DECODE_HANDLER": "auth.utils.jwt_decode_token",
     "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": "https://auth0.chefster.io",
+    "JWT_AUDIENCE": os.environ.get("AUTH0_AUDIENCE"),
     "JWT_ISSUER": f"https://{AUTH0_DOMAIN}/",
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
