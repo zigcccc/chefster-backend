@@ -24,7 +24,10 @@ API_TITLE = "Chefster"
 schema_view = get_schema_view(title=API_TITLE)
 docs_view = get_docs_view(title=API_TITLE)
 
-api_url_patterns = [path("", include("recipes.urls", namespace="recipes"))]
+api_url_patterns = [
+    path("", include("recipes.urls", namespace="recipes")),
+    path("", include("users.urls", namespace="users")),
+]
 
 urlpatterns = [
     path("admin/", admin.site.urls),

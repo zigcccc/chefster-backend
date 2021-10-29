@@ -1,0 +1,2 @@
+class JsonApiResource:
+    USER = "User"

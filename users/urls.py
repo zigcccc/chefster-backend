@@ -1,11 +1,11 @@
 from rest_framework import routers
 
-from .views import RecipeViewSet
+from .views import UserViewSet
 
-app_name = "recipes"
+app_name = "users"
 
 router = routers.DefaultRouter()
+router.register(app_name, UserViewSet)
 
-router.register(app_name, RecipeViewSet)
 
 urlpatterns = router.urls

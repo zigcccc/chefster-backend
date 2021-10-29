@@ -5,9 +5,9 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    Recipe Model Serializer
+    User Model Serializer
     """
 
     class Meta:
         model = User
-        fields = ["id", "username", "is_active", "date_joined"]
+        fields = ["id", "username", "is_active", "date_joined", "recipes_count"]

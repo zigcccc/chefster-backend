@@ -16,6 +16,7 @@ django-rest-swagger==2.2.0
 djangorestframework==3.12.4
 djangorestframework-jsonapi==4.2.1
 drf-jwt==1.13.4
+drf-nested-routers==0.93.4
 flake8==4.0.1
 flake8-quotes==3.3.1
 idna==3.3
